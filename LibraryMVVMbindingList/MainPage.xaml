@@ -1,0 +1,58 @@
+﻿<Page
+    x:Class="LibraryMVVMbindingList.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LibraryMVVMbindingList"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <!-- Her tilføjes min datacontext (min viewmodel - Ja men viewmodel per side/saml)-->
+    <Page.DataContext>
+        <local:ViewModel/> 
+    </Page.DataContext>
+    
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <ListView ItemsSource="{Binding Books, Mode=TwoWay}" SelectedItem="{Binding SelectedBook, Mode=TwoWay}">
+                <ListView.ItemTemplate >
+                    <DataTemplate>
+                        <!-- 'styler' elementer i listen -->
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Title}"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="10" Text="Udlånt til:"></TextBlock>
+                            <TextBlock FontSize="10" Text="{Binding Loaner, Mode=TwoWay}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <MenuFlyoutSeparator></MenuFlyoutSeparator>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Title: "></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" FontWeight="ExtraBold" Text="{Binding SelectedBook.Title}"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Author: "></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" FontStyle="Italic" Text="{Binding SelectedBook.Author}"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="ISBN: "></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedBook.Isbn}"></TextBlock>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Loaner, Mode=TwoWay}"></TextBox>
+                <Button Grid.Row="3" Grid.Column="0" Content="Udlån bog" Command="{Binding LoanBookCommand}"></Button>
+
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
